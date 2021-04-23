@@ -1,0 +1,27 @@
+{
+  "name": "ScuffedBot-V12-Rebuild",
+  "version": "1.0.0",
+  "description": "Welcome to ScuffedBot, a general purpose utility bot created by lukamic#6139. This bot adds the commands like userinfo, serverinfo, ping, etc. The bot also features commands such as 'Private', which adds the ability to create invisible invite-only voice channels for you and your friends. This repo is for a rebuild of the bot that I'm creating with the hope of speeding it up and taking some weight off my computers shoulders.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukamic321/ScuffedBot-V12-Rebuild.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lukamic321/ScuffedBot-V12-Rebuild/issues"
+  },
+  "homepage": "https://github.com/lukamic321/ScuffedBot-V12-Rebuild#readme",
+  "dependencies": {
+    "better-redddit": "^1.2.6",
+    "discord.js": "^12.5.3",
+    "eslint": "^7.23.0",
+    "fs": "*",
+    "wokcommands": "^1.3.1"
+  }
+}
