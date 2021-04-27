@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'private',
 	aliases: ['p', 'pr'],
+	cooldown: 5,
 	description: 'Creates a private voice channel for the user',
 	async execute(client, message, cmd, args) {
 		const author = message.author;
