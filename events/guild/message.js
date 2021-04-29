@@ -18,26 +18,29 @@ module.exports = (Discord, client, message) => {
 		return;
 	}
 
-	if (!cooldowns.has(command.name)) {
-		cooldowns.set(command.name, new Discord.Collection());
-	}
-
-	const current_time = Date.now();
-	const timestamps = cooldowns.get(command.name);
-	const cooldown_amount = (command.cooldown) * 1000;
-
-	if (timestamps.has(message.author.id)) {
-		const expiration_time = timestamps.get(message.author.id) + cooldown_amount;
-
-		if (current_time < expiration_time) {
-			const time_left = (expiration_time - current_time) / 1000;
-
-			return message.reply(`Please wait ${time_left.toFixed(1)} seconds before using the "${command.name}" command again.`);
+	if (command.cooldown) {
+		if (!cooldowns.has(command.name)) {
+			cooldowns.set(command.name, new Discord.Collection());
 		}
-	}
 
-	timestamps.set(message.author.id, current_time);
-	setTimeout(() => timestamps.delete(message.author.id), cooldown_amount);
+		const current_time = Date.now();
+		const timestamps = cooldowns.get(command.name);
+		const cooldown_amount = (command.cooldown) * 1000;
+
+		if (timestamps.has(message.author.id)) {
+			const expiration_time = timestamps.get(message.author.id) + cooldown_amount;
+
+			if (current_time < expiration_time) {
+				const time_left = (expiration_time - current_time) / 1000;
+
+				return message.reply(`Please wait ${time_left.toFixed(1)} seconds before using the "${command.name}" command again.`);
+			}
+		}
+
+		timestamps.set(message.author.id, current_time);
+		setTimeout(() => timestamps.delete(message.author.id), cooldown_amount);
+
+	}
 
 	try {
 		command.execute(message, args, cmd, client, Discord);
