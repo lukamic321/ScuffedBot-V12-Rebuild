@@ -4,11 +4,14 @@ Welcome to ScuffedBot, a general purpose utility bot created by lukamic#6139. Th
 
 ## Adding ScuffedBot to your discord server
 
-Click [here](https://discord.com/oauth2/authorize?client_id=716559323379138581&scope=bot&permissions=2146692342) to invite ScuffedBot to your server, or follow the link below.
+ScuffedBot is currently in development, so I'm not allowed it to be added to random servers. If you wish to add ScuffedBot Beta to your server please contact me via the discord handle found on my GitHub account readme
 
-```bash
+<!--Click [here](https://discord.com/oauth2/authorize?client_id=716559323379138581&scope=bot&permissions=2146692342) to invite ScuffedBot to your server, or follow the link below.
+
+<!--```bash
 https://discord.com/api/oauth2/authorize?client_id=771609837619904513&permissions=0&scope=bot
 ```
+-->
 
 ## Contributing
 If you'd like to help develope the bot, please feel free to contact me at my discord handle above. This bot is mainly an on again/off again passion project of mine, so anyone with more experience than me is welcome.
