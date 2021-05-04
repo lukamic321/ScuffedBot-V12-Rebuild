@@ -4,7 +4,7 @@ Welcome to ScuffedBot, a general purpose utility bot created by lukamic#6139. Th
 
 ## Adding ScuffedBot to your discord server
 
-ScuffedBot is currently in development, so I'm not allowed it to be added to random servers. If you wish to add ScuffedBot Beta to your server please contact me via the discord handle found on my GitHub account readme
+ScuffedBot is currently in development, so I've hidden the invite link for security reasons. If you wish to add ScuffedBot Beta to your server, and are aware of the risks such action incurs, please contact me via the discord handle found on my GitHub account readme
 
 <!--Click [here](https://discord.com/oauth2/authorize?client_id=716559323379138581&scope=bot&permissions=2146692342) to invite ScuffedBot to your server, or follow the link below.
 
