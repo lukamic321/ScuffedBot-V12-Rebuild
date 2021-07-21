@@ -1,6 +1,5 @@
 const fs = require('fs');
 
-// eslint-disable-next-line no-unused-vars
 module.exports = (client, Discord) => {
 	const command_files = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 

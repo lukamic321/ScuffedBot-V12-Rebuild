@@ -1,45 +1,61 @@
-const private = require('../models/private');
+const profileModel = require('../models/profileSchema');
 
 module.exports = {
 	name: 'private',
-	aliases: ['p', 'pr'],
-	permissions: ['SPEAK'],
-	cooldown: 5,
-	description: 'Creates a private voice channel for the user',
-	async execute(message, args, cmd, client, Discord) {
-		const author = message.author;
-		const voiceChannel = message.member.voice.channel;
+	aliases: ['p', 'vc'],
+	cooldown: 0,
+	permissions: [],
+	description: "Creates private voice channels",
 
-		if (!voiceChannel) return message.channel.send(`${author} Please join a voice channel before using this command.`);
+	async run(client, message, cmd, args, Discord, profileData) {
 
-		if (cmd === 'private') {
+		if (args[0] === 'create' || args[0] === 'c') {
+			// check if user is in a voice channel -----------------------------
+			if (!message.member.voice.channel) {
+				return message.channel.send('You need to be in a voice channel to use this command!');
+			}
+			// -----------------------------------------------------------------
 
-			if (args[0].toLowerCase() === 'create') {
+			// Check if private channels category exists -----------------------
+			const privateCategory = message.guild.channels.cache.find(channel => (channel.name === 'Private Channels') && (channel.type === 'category'));
 
-				const category = message.guild.channels.cache.find(channel => channel.name === 'Temp Channels' && channel.type === 'category');
+			console.log(privateCategory);
 
-				if (!category) {
-					console.log('There is no temp channels category');
-					message.reply('There is no "Temp Channels" category');
-					return;
-				}
+			if (!privateCategory) {
+				message.channel.send(`This server doesn't have a 'Private Channels' channel category. Please create one.`);
+			}
+			// -----------------------------------------------------------------
 
-				if (args[1]) {
-					const invites = args.slice(1);
-					message.reply(`args: ${args}\ninvites: ${invites}`);
-				}
-
-				message.guild.channels.create(message.author.username, {
+			// Create VC -------------------------------------------------------
+			message.member.voice.setChannel(
+				await message.guild.channels.create(`${message.author.username}'s voice channel`, {
 					type: 'voice',
+					parent: privateCategory,
 					permissionOverwrites: [
 						{
-							id: message.guild.roles.everyone,
-							deny: ['VIEW_CHANNEL'],
+							id: message.guild.id,
+							deny: 'VIEW_CHANNEL',
+						},
+						{
+							id: message.author.id,
+							allow: 'VIEW_CHANNEL',
 						},
 					],
-					parent: 'Temp Channels',
-				});
-			}
+				}), 'created private channel',
+			).catch(err => {
+				console.log(err);
+			});
+			// -----------------------------------------------------------------
+
+			// Update Database -------------------------------------------------
+			await profileModel.findOneAndUpdate({
+				userID: message.author.id,
+			}, {
+				serverID: message.guild.id, channelID: message.member.voice.channelID,
+			});
+			// -----------------------------------------------------------------
 		}
+
+		return;
 	},
 };
