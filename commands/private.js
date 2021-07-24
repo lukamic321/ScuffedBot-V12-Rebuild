@@ -19,15 +19,14 @@ module.exports = {
 			// Check if private channels category exists -----------------------
 			const privateCategory = message.guild.channels.cache.find(channel => (channel.name === 'Private Channels') && (channel.type === 'category'));
 
-			console.log(privateCategory);
-
 			if (!privateCategory) {
 				message.channel.send(`This server doesn't have a 'Private Channels' channel category. Please create one.`);
 			}
 			// -----------------------------------------------------------------
 
 			// Create VC -------------------------------------------------------
-			message.member.voice.setChannel(
+
+			try {
 				await message.guild.channels.create(`${message.author.username}'s voice channel`, {
 					type: 'voice',
 					parent: privateCategory,
@@ -41,18 +40,24 @@ module.exports = {
 							allow: 'VIEW_CHANNEL',
 						},
 					],
-				}), 'created private channel',
-			).catch(err => {
+				}).then((channel) => {
+					message.member.voice.setChannel(channel).then(async (guildmember) => {
+						await profileModel.findOneAndUpdate({
+							userID: guildmember.id,
+						}, {
+							serverID: guildmember.guild.id, channelID: guildmember.voice.channelID,
+						});
+						console.log(' ');
+						console.log(guildmember.voice.channelID);
+					});
+				});
+			} catch (err) {
 				console.log(err);
-			});
+			}
 			// -----------------------------------------------------------------
 
 			// Update Database -------------------------------------------------
-			await profileModel.findOneAndUpdate({
-				userID: message.author.id,
-			}, {
-				serverID: message.guild.id, channelID: message.member.voice.channelID,
-			});
+
 			// -----------------------------------------------------------------
 		}
 

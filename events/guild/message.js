@@ -13,6 +13,7 @@ module.exports = async (Discord, client, message) => {
 	try {
 		profileData = await profileModel.findOne({ userID: message.author.id });
 		if (!profileData) {
+			// eslint-disable-next-line prefer-const
 			let profile = await profileModel.create({
 				userID: message.author.id,
 				serverID: message.guild.id,
