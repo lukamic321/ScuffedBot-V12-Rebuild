@@ -1,4 +1,4 @@
-const profileModel = require('../models/profileSchema');
+const channelModel = require('../models/channelSchema');
 
 module.exports = {
 	name: 'private',
@@ -7,7 +7,7 @@ module.exports = {
 	permissions: [],
 	description: "Creates private voice channels",
 
-	async run(client, message, cmd, args, Discord, profileData) {
+	async run(client, message, cmd, args, Discord, channelData) {
 
 		if (args[0] === 'create' || args[0] === 'c') {
 			// check if user is in a voice channel -----------------------------
@@ -42,11 +42,17 @@ module.exports = {
 					],
 				}).then((channel) => {
 					message.member.voice.setChannel(channel).then(async (guildmember) => {
-						await profileModel.findOneAndUpdate({
-							userID: guildmember.id,
-						}, {
-							serverID: guildmember.guild.id, channelID: guildmember.voice.channelID,
+						let channelDB = await channelModel.create({
+							channelID: channel.id,
+							ownerID: message.author.id,
 						});
+						channelDB.save();
+
+						// await profileModel.findOneAndUpdate({
+						// 	userID: guildmember.id,
+						// }, {
+						// 	serverID: guildmember.guild.id, channelID: guildmember.voice.channelID,
+						// });
 						console.log(' ');
 						console.log(guildmember.voice.channelID);
 					});

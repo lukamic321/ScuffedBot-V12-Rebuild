@@ -1,5 +1,5 @@
 const { set } = require('mongoose');
-const profileModel = require('../../models/profileSchema');
+const channelModel = require('../../models/channelSchema');
 
 require('dotenv').config();
 const prefix = process.env.PREFIX;
@@ -9,21 +9,21 @@ const cooldowns = new Map();
 module.exports = async (Discord, client, message) => {
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-	let profileData;
-	try {
-		profileData = await profileModel.findOne({ userID: message.author.id });
-		if (!profileData) {
-			// eslint-disable-next-line prefer-const
-			let profile = await profileModel.create({
-				userID: message.author.id,
-				serverID: message.guild.id,
-				channelID: message.member.voice.channelID,
-			});
-			profile.save();
-		}
-	} catch (err) {
-		console.log(err);
-	}
+	let channelData;
+	// try {
+	// 	profileData = await profileModel.findOne({ userID: message.author.id });
+	// 	if (!profileData) {
+	// 		// eslint-disable-next-line prefer-const
+	// 		let profile = await profileModel.create({
+	// 			userID: message.author.id,
+	// 			serverID: message.guild.id,
+	// 			channelID: message.member.voice.channelID,
+	// 		});
+	// 		profile.save();
+	// 	}
+	// } catch (err) {
+	// 	console.log(err);
+	// }
 
 	const args = message.content.slice(prefix.length).split(/ +/);
 	const cmd = args.shift().toLowerCase();
@@ -104,7 +104,7 @@ module.exports = async (Discord, client, message) => {
 	setTimeout(() => time_stamps.delete(message.author.id), cooldown_amount);
 
 	try {
-		command.run(client, message, cmd, args, Discord, profileData);
+		command.run(client, message, cmd, args, Discord, channelData);
 	} catch (err) {
 		message.reply('There was an error running that command!');
 		console.log(err);
